@@ -57,13 +57,29 @@ public class IssueBrowser {
      * Browse open issues of a repository
      *
      * @param argRepository {@link Repository} instance which contains name and owner
-     * @return {@link List} containing {@link Issues} instances, empty List if no open issues are found
-     * @throws a {@link NullPointerException} in case passed repository is null
+     * @return {@link List} containing {@link Issue} instances, empty List if no open issues are found
+     * @throws NullPointerException in case passed repository is null
+     * @throws HttpClientErrorException in case passed user or repository doesn't exist
      */
-
     public List<Issue> browseOpen(Repository argRepository) {
+        return doBrowse(argRepository, ISSUES_OPEN_URL);
+    }
+
+    /**
+     * Browse closed issues of a repository
+     *
+     * @param argRepository {@link Repository} instance which contains name and owner
+     * @return {@link List} containing {@link Issue} instances, empty List if no closed issues are found
+     * @throws NullPointerException in case passed repository is null
+     * @throws HttpClientErrorException in case passed user or repository doesn't exist
+     */
+    public List<Issue> browseClosed(Repository argRepository) {
+        return doBrowse(argRepository, ISSUES_CLOSED_URL);
+    }
+
+    private List<Issue> doBrowse(Repository argRepository, String argUrl) {
         RestTemplate template = initTemplate();
-        IssuesResponse resp = template.getForObject(ISSUES_OPEN_URL, IssuesResponse.class, argRepository.getOwner(), argRepository.getName());
+        IssuesResponse resp = template.getForObject(argUrl, IssuesResponse.class, argRepository.getOwner(), argRepository.getName());
         if (resp == null || resp.getIssues() == null || resp.getIssues().length == 0) {
             return Collections.emptyList();
         } else {

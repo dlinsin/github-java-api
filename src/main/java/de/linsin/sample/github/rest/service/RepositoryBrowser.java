@@ -26,8 +26,8 @@ public class RepositoryBrowser {
      *
      * @param argUsername {@link String} username
      * @return {@link List} containing {@link Repository} instances, empty List if user exists, but has no repositories
-     * @throws a {@link NullPointerException} in case passed username is null
-     * @throws a {@link HttpClientErrorException} in case the user doesn't exist
+     * @throws NullPointerException in case passed username is null
+     * @throws HttpClientErrorException in case the user doesn't exist
      */
     public List<Repository> browse(String argUsername) {
         RestTemplate template = initTemplate();
@@ -45,8 +45,8 @@ public class RepositoryBrowser {
      * @param argUsername {@link String} username
      * @param argRepositoryname {@link String} name of repository
      * @return {@link Repository} instance denoted by passed user and repository name
-     * @throws a {@link NullPointerException} in case passed username or repository name is null
-     * @throws a {@link HttpClientErrorException} in case passed user or repository doesn't exist 
+     * @throws NullPointerException in case passed username or repository name is null
+     * @throws HttpClientErrorException in case passed user or repository doesn't exist
      */
     public Repository browse(String argUsername, String argRepositoryname) {
         RestTemplate template = initTemplate();

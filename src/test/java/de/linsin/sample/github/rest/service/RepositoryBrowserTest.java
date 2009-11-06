@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 /**
  * Testing {@link RepositoryBrowser}
  *
- * @author David Linsin - linsin@synyx.de
+ * @author David Linsin - dlinsin@gmail.com
  */
 public class RepositoryBrowserTest {
     private RepositoryBrowser classUnderTest;

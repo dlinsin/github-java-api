@@ -1,24 +1,45 @@
 package de.linsin.sample.github.rest.domain;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
  * Represents an issue on GitHub
  *
- * @author David Linsin - linsin@synyx.de
+ * @author David Linsin - dlinsin@gmail.com
  */
 public class Issue {
     private long number;
     private int votes;
-    private Date created_at;
+    private String created_at;
     private String body;
     private String title;
-    private Date updated_at;
+    private String updated_at;
     private String user;
     private State state;
+    private String closed_at;
+    private String[] labels;
+
+    public String getClosed_at() {
+        return closed_at;
+    }
+
+    public void setClosed_at(String argClosed_at) {
+        closed_at = argClosed_at;
+    }
+
+    public String[] getLabels() {
+        return labels;
+    }
+
+    public void setLabels(String[] argLabels) {
+        labels = argLabels;
+    }
 
     public enum State {
-        OPEN, CLOSED;
+        open, closed;
 
         State() {
         }
@@ -40,11 +61,11 @@ public class Issue {
         votes = argVotes;
     }
 
-    public Date getCreated_at() {
+    public String getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(Date argCreated_at) {
+    public void setCreated_at(String argCreated_at) {
         created_at = argCreated_at;
     }
 
@@ -64,11 +85,11 @@ public class Issue {
         title = argTitle;
     }
 
-    public Date getUpdated_at() {
+    public String getUpdated_at() {
         return updated_at;
     }
 
-    public void setUpdated_at(Date argUpdated_at) {
+    public void setUpdated_at(String argUpdated_at) {
         updated_at = argUpdated_at;
     }
 
@@ -86,6 +107,35 @@ public class Issue {
 
     public void setState(String argState) {
         state = State.valueOf(argState);
+    }
+
+    public Date created() {
+        return convertDate(created_at);
+    }
+
+    public Date closed() {
+        return convertDate(updated_at);
+    }
+
+    /**
+     * Converts from  2009/11/01 07:27:56 -0800
+     *
+     * @param argDate {@link String} with date information
+     * @return a {@link Date} instance, null if parsing fails
+     */
+    protected Date convertDate(String argDate) {
+        String withoutTimeZone = argDate.substring(0, argDate.length() - 5).trim();
+        try {
+            return new SimpleDateFormat().parse(withoutTimeZone);
+        } catch (ParseException e) {
+            // TODO what can we do
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Date updated() {
+        return convertDate(updated_at);
     }
 
     @Override
@@ -108,6 +158,8 @@ public class Issue {
         result = 31 * result + (updated_at != null ? updated_at.hashCode() : 0);
         result = 31 * result + (user != null ? user.hashCode() : 0);
         result = 31 * result + (state != null ? state.hashCode() : 0);
+        result = 31 * result + (closed_at != null ? closed_at.hashCode() : 0);
+        result = 31 * result + (labels != null ? Arrays.hashCode(labels) : 0);
         return result;
     }
 
@@ -116,12 +168,14 @@ public class Issue {
         return "Issue{" +
                 "number=" + number +
                 ", votes=" + votes +
-                ", created_at=" + created_at +
+                ", created_at='" + created_at + '\'' +
                 ", body='" + body + '\'' +
                 ", title='" + title + '\'' +
-                ", updated_at=" + updated_at +
+                ", updated_at='" + updated_at + '\'' +
                 ", user='" + user + '\'' +
-                ", state='" + state + '\'' +
+                ", state=" + state +
+                ", closed_at='" + closed_at + '\'' +
+                ", labels=" + (labels == null ? null : Arrays.asList(labels)) +
                 '}';
     }
 }

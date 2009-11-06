@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * Represents a set of {@link Issue} instances
  *
- * @author David Linsin - linsin@synyx.de
+ * @author David Linsin - dlinsin@gmail.com
  */
 public class IssuesResponse {
     private Issue[] issues;

@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
  * Provides methods to browser through GitHub issues for a particular repository.
  * You need your GitHub credentials, in order to use certain methods
  *
- * @author David Linsin - linsin@synyx.de
+ * @author David Linsin - dlinsin@gmail.com
  */
 public class IssueBrowser {
     public static final String BASE_URL = "http://github.com/api/v2/json/";
@@ -48,7 +48,7 @@ public class IssueBrowser {
 
     /**
      * Use this constructor in case you don't want to authorize.
-     * Note that various methods need authorization.
+     * Note: various methods need authorization.
      */
     public IssueBrowser() {
     }

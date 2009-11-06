@@ -11,7 +11,7 @@ import org.springframework.web.client.HttpClientErrorException;
 /**
  * Testing {@link RepositoryBrowserIntegration}
  *
- * @author David Linsin - linsin@synyx.de
+ * @author David Linsin - dlinsin@gmail.com
  */
 public class RepositoryBrowserIntegrationTest {
     private RepositoryBrowser classUnderTest;

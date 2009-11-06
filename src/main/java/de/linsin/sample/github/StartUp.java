@@ -8,7 +8,7 @@ import org.springframework.web.client.RestTemplate;
 /**
  * TODO document
  *
- * @author David Linsin - linsin@synyx.de
+ * @author David Linsin - dlinsin@gmail.com
  */
 public class StartUp {
     public static void main(String[] args) {

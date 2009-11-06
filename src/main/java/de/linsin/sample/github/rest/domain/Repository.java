@@ -104,9 +104,7 @@ public class Repository {
 
         Repository that = (Repository) o;
 
-        if (url != null ? !url.equals(that.url) : that.url != null) return false;
-
-        return true;
+        return !(url != null ? !url.equals(that.url) : that.url != null);
     }
 
     @Override

@@ -95,9 +95,7 @@ public class Issue {
 
         Issue issue = (Issue) o;
 
-        if (number != issue.number) return false;
-
-        return true;
+        return number == issue.number;
     }
 
     @Override

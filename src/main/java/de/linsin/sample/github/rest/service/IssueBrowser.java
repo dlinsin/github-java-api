@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import de.linsin.sample.github.rest.domain.Issue;
+import de.linsin.sample.github.rest.domain.IssueResponse;
 import de.linsin.sample.github.rest.domain.IssuesResponse;
 import de.linsin.sample.github.rest.domain.Repository;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -58,7 +59,7 @@ public class IssueBrowser {
      *
      * @param argRepository {@link Repository} instance which contains name and owner
      * @return {@link List} containing {@link Issue} instances, empty List if no open issues are found
-     * @throws NullPointerException in case passed repository is null
+     * @throws NullPointerException     in case passed repository is null
      * @throws HttpClientErrorException in case passed user or repository doesn't exist
      */
     public List<Issue> browseOpen(Repository argRepository) {
@@ -70,11 +71,29 @@ public class IssueBrowser {
      *
      * @param argRepository {@link Repository} instance which contains name and owner
      * @return {@link List} containing {@link Issue} instances, empty List if no closed issues are found
-     * @throws NullPointerException in case passed repository is null
+     * @throws NullPointerException     in case passed repository is null
      * @throws HttpClientErrorException in case passed user or repository doesn't exist
      */
     public List<Issue> browseClosed(Repository argRepository) {
         return doBrowse(argRepository, ISSUES_CLOSED_URL);
+    }
+
+    /**
+     * Browse a specific issue of a repository
+     *
+     * @param argRepository {@link Repository} instance which contains name and owner
+     * @param argIssueNo    int which is the number of the issue, you want to browse
+     * @return {@link Issue} instance with passed id, null if
+     * @throws NullPointerException     in case passed repository is null
+     * @throws HttpClientErrorException in case passed user or repository doesn't exist
+     */
+    public Issue browse(Repository argRepository, int argIssueNo) {
+        RestTemplate template = initTemplate();
+        IssueResponse resp = template.getForObject(ISSUE_URL, IssueResponse.class, argRepository.getOwner(), argRepository.getName(), String.valueOf(argIssueNo));
+        if (resp != null) {
+            return resp.getIssue();
+        }
+        return null;
     }
 
     private List<Issue> doBrowse(Repository argRepository, String argUrl) {

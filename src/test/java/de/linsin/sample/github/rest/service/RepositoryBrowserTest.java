@@ -77,14 +77,13 @@ public class RepositoryBrowserTest {
         verify(mockRestTemplate);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void browse_repo_return_null() {
         String testUser = "dlinsin";
         String testRepo = "area51";
         expect(mockRestTemplate.getForObject(RepositoryBrowser.REPOSITORY_URL, RepositoryResponse.class, testUser, testRepo)).andReturn(null);
         replay(mockRestTemplate);
         assertNull(classUnderTest.browse(testUser, testRepo));
-        verify(mockRestTemplate);
     }
 
     @Test(expected = NullPointerException.class)

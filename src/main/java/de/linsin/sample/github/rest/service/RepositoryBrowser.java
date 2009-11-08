@@ -51,12 +51,10 @@ public class RepositoryBrowser {
     public Repository browse(String argUsername, String argRepositoryname) {
         RestTemplate template = initTemplate();
         RepositoryResponse resp = template.getForObject(REPOSITORY_URL, RepositoryResponse.class, argUsername, argRepositoryname);
-        if (resp != null) {
-            return resp.getRepository();
-        }
-        return null;
+        return resp.getRepository();
     }
 
+    // TODO move to base class
     protected RestTemplate initTemplate() {
         RestTemplate template = new RestTemplate();
         template.setMessageConverters(new HttpMessageConverter[] {new MappingJacksonHttpMessageConverter()});

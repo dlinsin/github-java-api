@@ -22,6 +22,10 @@ public class Issue {
     private String closed_at;
     private String[] labels;
 
+    public Issue() {
+        state = State.open;
+    }
+
     public String getClosed_at() {
         return closed_at;
     }

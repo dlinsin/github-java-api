@@ -7,7 +7,6 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.*;
 import org.junit.After;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.client.RestTemplate;
@@ -83,7 +82,7 @@ public class RepositoryBrowserTest {
         String testRepo = "area51";
         expect(mockRestTemplate.getForObject(RepositoryBrowser.REPOSITORY_URL, RepositoryResponse.class, testUser, testRepo)).andReturn(null);
         replay(mockRestTemplate);
-        assertNull(classUnderTest.browse(testUser, testRepo));
+        classUnderTest.browse(testUser, testRepo);
     }
 
     @Test(expected = NullPointerException.class)

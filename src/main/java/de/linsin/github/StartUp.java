@@ -1,6 +1,6 @@
-package de.linsin.sample.github;
+package de.linsin.github;
 
-import de.linsin.sample.github.rest.domain.RepositoriesResponse;
+import de.linsin.github.rest.domain.RepositoriesResponse;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;

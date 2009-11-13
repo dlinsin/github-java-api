@@ -1,9 +1,9 @@
-package de.linsin.sample.github.rest.service;
+package de.linsin.github.rest.service;
 
-import de.linsin.sample.github.rest.domain.Issue;
-import de.linsin.sample.github.rest.domain.IssueResponse;
-import de.linsin.sample.github.rest.domain.IssuesResponse;
-import de.linsin.sample.github.rest.domain.Repository;
+import de.linsin.github.rest.domain.Issue;
+import de.linsin.github.rest.domain.IssueResponse;
+import de.linsin.github.rest.domain.IssuesResponse;
+import de.linsin.github.rest.domain.Repository;
 import static org.easymock.classextension.EasyMock.*;
 import org.junit.After;
 import static org.junit.Assert.*;

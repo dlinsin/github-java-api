@@ -1,12 +1,12 @@
-package de.linsin.sample.github.rest.service;
+package de.linsin.github.rest.service;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import de.linsin.sample.github.rest.domain.RepositoriesResponse;
-import de.linsin.sample.github.rest.domain.Repository;
-import de.linsin.sample.github.rest.domain.RepositoryResponse;
+import de.linsin.github.rest.domain.RepositoriesResponse;
+import de.linsin.github.rest.domain.Repository;
+import de.linsin.github.rest.domain.RepositoryResponse;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;

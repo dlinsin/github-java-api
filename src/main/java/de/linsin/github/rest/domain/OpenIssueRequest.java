@@ -1,4 +1,4 @@
-package de.linsin.sample.github.rest.domain;
+package de.linsin.github.rest.domain;
 
 /**
  * Represents a request to open an issue

@@ -1,8 +1,8 @@
-package de.linsin.sample.github.rest.service;
+package de.linsin.github.rest.service;
 
 import java.util.List;
 
-import de.linsin.sample.github.rest.domain.Repository;
+import de.linsin.github.rest.domain.Repository;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;

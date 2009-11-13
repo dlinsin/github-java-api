@@ -100,11 +100,11 @@ public class IssueBrowser {
      * Note: so far only title and body are used from passed instance
      *
      * @param argRepository {@link Repository} instance used to open issue
-     * @param argIssue {@link Issue} instance containing title and body of the issue
+     * @param argIssue      {@link Issue} instance containing title and body of the issue
      * @return the {@link Issue} instance which was opened and contains assigned id
      * @throws IllegalArgumentException in case passed Issue doesn't contain a body or title
      * @throws NullPointerException     in case passed repository or issue is null
-     * @throws HttpClientErrorException in case passed user, repository or issue doesn't exist
+     * @throws HttpClientErrorException in case passed user or repository doesn't exist
      */
     public Issue open(Repository argRepository, Issue argIssue) {
         RestTemplate template = initTemplate();
@@ -114,7 +114,30 @@ public class IssueBrowser {
 
         OpenIssueRequest req = new OpenIssueRequest(username, apiToken, argIssue.getTitle(), argIssue.getBody());
         IssueResponse resp = template.postForObject(OPEN_ISSUE_URL, req, IssueResponse.class, argRepository.getOwner(), argRepository.getName());
-        
+
+        return resp.getIssue();
+    }
+
+    /**
+     * Reopens the passed {@link Issue} in the passed {@link Repository}
+     * Note: so far only title and body are used from passed instance
+     *
+     * @param argRepository {@link Repository} instance used to open issue
+     * @param argIssue      {@link Issue} instance containing title and body of the issue
+     * @return the {@link Issue} instance which was opened and contains assigned id
+     * @throws IllegalArgumentException in case passed Issue doesn't contain a body or title
+     * @throws NullPointerException     in case passed repository or issue is null
+     * @throws HttpClientErrorException in case passed user, repository or issue doesn't exist
+     */
+    public Issue reopen(Repository argRepository, Issue argIssue) {
+        RestTemplate template = initTemplate();
+
+        Assert.hasText(argIssue.getTitle());
+        Assert.hasText(argIssue.getBody());
+
+        OpenIssueRequest req = new OpenIssueRequest(username, apiToken, argIssue.getTitle(), argIssue.getBody());
+        IssueResponse resp = template.postForObject(OPEN_ISSUE_URL, req, IssueResponse.class, argRepository.getOwner(), argRepository.getName());
+
         return resp.getIssue();
     }
 

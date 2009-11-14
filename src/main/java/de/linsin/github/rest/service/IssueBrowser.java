@@ -20,13 +20,11 @@ import java.util.Collections;
 import java.util.List;
 
 import de.linsin.github.rest.domain.Issue;
+import de.linsin.github.rest.domain.Repository;
 import de.linsin.github.rest.resource.IssueRequest;
 import de.linsin.github.rest.resource.IssueResponse;
 import de.linsin.github.rest.resource.IssuesResponse;
 import de.linsin.github.rest.resource.OpenIssueRequest;
-import de.linsin.github.rest.domain.Repository;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
 
@@ -36,7 +34,7 @@ import org.springframework.web.client.RestTemplate;
  *
  * @author David Linsin - dlinsin@gmail.com
  */
-public class IssueBrowser {
+public class IssueBrowser extends Browser {
     public static final String BASE_URL = "http://github.com/api/v2/json/";
     public static final String ISSUES_BASE_URL = BASE_URL.concat("issues/list/{username}/{repo}");
     public static final String ISSUE_BASE_URL = BASE_URL.concat("issues/show/{username}/{repo}");
@@ -181,11 +179,5 @@ public class IssueBrowser {
         } else {
             return Arrays.asList(resp.getIssues());
         }
-    }
-
-    protected RestTemplate initTemplate() {
-        RestTemplate template = new RestTemplate();
-        template.setMessageConverters(new HttpMessageConverter[]{new MappingJacksonHttpMessageConverter()});
-        return template;
     }
 }

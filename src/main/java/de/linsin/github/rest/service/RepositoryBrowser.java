@@ -19,11 +19,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import de.linsin.github.rest.resource.RepositoriesResponse;
 import de.linsin.github.rest.domain.Repository;
+import de.linsin.github.rest.resource.RepositoriesResponse;
 import de.linsin.github.rest.resource.RepositoryResponse;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -31,7 +29,7 @@ import org.springframework.web.client.RestTemplate;
  *
  * @author David Linsin - dlinsin@gmail.com
  */
-public class RepositoryBrowser {
+public class RepositoryBrowser extends Browser {
     public static final String BASE_URL = "http://github.com/api/v2/json/";
     public static final String REPOSITORIES_URL = BASE_URL.concat("repos/show/{username}");
     public static final String REPOSITORY_URL = REPOSITORIES_URL.concat("/{repo}");
@@ -68,12 +66,4 @@ public class RepositoryBrowser {
         RepositoryResponse resp = template.getForObject(REPOSITORY_URL, RepositoryResponse.class, argUsername, argRepositoryname);
         return resp.getRepository();
     }
-
-    // TODO move to base class
-    protected RestTemplate initTemplate() {
-        RestTemplate template = new RestTemplate();
-        template.setMessageConverters(new HttpMessageConverter[] {new MappingJacksonHttpMessageConverter()});
-        return template;
-    }
-
 }

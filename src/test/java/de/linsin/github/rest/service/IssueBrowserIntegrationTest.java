@@ -220,7 +220,7 @@ public class IssueBrowserIntegrationTest {
             classUnderTest.close(repo, issue);
             fail("expected exception");
         } catch (HttpClientErrorException e) {
-            assertTrue(classUnderTest.browseOpen(repo).contains(issue));
+            assertTrue(classUnderTest.browseOpen(setupTestRepo()).contains(issue));
         }
     }
 
@@ -233,7 +233,7 @@ public class IssueBrowserIntegrationTest {
             classUnderTest.close(repo, issue);
             fail("expected exception");
         } catch (HttpClientErrorException e) {
-            assertTrue(classUnderTest.browseOpen(repo).contains(issue));
+            assertTrue(classUnderTest.browseOpen(setupTestRepo()).contains(issue));
         }
     }
 
@@ -268,7 +268,7 @@ public class IssueBrowserIntegrationTest {
             classUnderTest.reopen(repo, issue);
             fail("expected exception");
         } catch (HttpClientErrorException e) {
-            assertTrue(classUnderTest.browseClosed(repo).contains(issue));
+            assertTrue(classUnderTest.browseClosed(setupTestRepo()).contains(issue));
         }
     }
 
@@ -281,7 +281,7 @@ public class IssueBrowserIntegrationTest {
             classUnderTest.reopen(repo, issue);
             fail("expected exception");
         } catch (HttpClientErrorException e) {
-            assertTrue(classUnderTest.browseClosed(repo).contains(issue));
+            assertTrue(classUnderTest.browseClosed(setupTestRepo()).contains(issue));
         }
     }
 
@@ -295,7 +295,7 @@ public class IssueBrowserIntegrationTest {
             classUnderTest.close(repo, newIssue);
             fail("expected exception");
         } catch (HttpClientErrorException e) {
-            assertTrue(classUnderTest.browseOpen(repo).contains(issue));
+            assertTrue(classUnderTest.browseClosed(repo).contains(issue));
         }
     }
 

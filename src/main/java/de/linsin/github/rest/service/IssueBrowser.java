@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 import de.linsin.github.rest.domain.Issue;
+import de.linsin.github.rest.domain.IssueRequest;
 import de.linsin.github.rest.domain.IssueResponse;
 import de.linsin.github.rest.domain.IssuesResponse;
 import de.linsin.github.rest.domain.OpenIssueRequest;
@@ -135,25 +136,41 @@ public class IssueBrowser {
 
     /**
      * Reopens the passed {@link Issue} in the passed {@link Repository}
-     * Note: so far only title and body are used from passed instance
      *
-     * @param argRepository {@link Repository} instance used to open issue
-     * @param argIssue      {@link Issue} instance containing title and body of the issue
-     * @return the {@link Issue} instance which was opened and contains assigned id
-     * @throws IllegalArgumentException in case passed Issue doesn't contain a body or title
+     * @param argRepository {@link Repository} instance used to reopen issue
+     * @param argIssue      {@link Issue} instance containing id
+     * @return the {@link Issue} instance which was reopened
+     * @throws IllegalArgumentException in case passed Issue doesn't have an id
      * @throws NullPointerException     in case passed repository or issue is null
      * @throws HttpClientErrorException in case passed user, repository or issue doesn't exist
      */
     public Issue reopen(Repository argRepository, Issue argIssue) {
         RestTemplate template = initTemplate();
 
-        Assert.hasText(argIssue.getTitle());
-        Assert.hasText(argIssue.getBody());
+        Assert.isTrue(argIssue.getNumber() > 0);
 
-        OpenIssueRequest req = new OpenIssueRequest(username, apiToken, argIssue.getTitle(), argIssue.getBody());
-        IssueResponse resp = template.postForObject(OPEN_ISSUE_URL, req, IssueResponse.class, argRepository.getOwner(), argRepository.getName());
+        IssueRequest req = new IssueRequest(username, apiToken);
+        IssueResponse resp = template.postForObject(REOPEN_ISSUE_URL, req, IssueResponse.class, argRepository.getOwner(), argRepository.getName(), String.valueOf(argIssue.getNumber()));
 
         return resp.getIssue();
+    }
+
+    /**
+     * Closes the passed {@link Issue} in the passed {@link Repository}
+     *
+     * @param argRepository {@link Repository} instance used to close issue
+     * @param argIssue      {@link Issue} instance containing id
+     * @throws IllegalArgumentException in case passed Issue doesn't contain an id
+     * @throws NullPointerException     in case passed repository or issue is null
+     * @throws HttpClientErrorException in case passed user, repository or issue doesn't exist
+     */
+    public void close(Repository argRepository, Issue argIssue) {
+        RestTemplate template = initTemplate();
+
+        Assert.isTrue(argIssue.getNumber() > 0);
+
+        IssueRequest req = new IssueRequest(username, apiToken);
+        IssueResponse resp = template.postForObject(CLOSE_ISSUE_URL, req, IssueResponse.class, argRepository.getOwner(), argRepository.getName(), String.valueOf(argIssue.getNumber()));
     }
 
     protected List<Issue> doBrowse(Repository argRepository, String argUrl) {

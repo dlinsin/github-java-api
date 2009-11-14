@@ -202,4 +202,60 @@ public class IssueBrowserIntegrationTest {
         newIssue.setBody(body);
         classUnderTest.open(repo, newIssue);
     }
+
+    @Test
+    public void close_issue() {
+        Repository repo = setupTestRepo();
+        Issue issue = setUpTestIssue(repo);
+        classUnderTest.close(repo, issue);
+        assertTrue(classUnderTest.browseClosed(repo).contains(issue));
+    }
+
+    @Test
+    public void close_issue_invalid_user() {
+        Repository repo = setupTestRepo();
+        Issue issue = setUpTestIssue(repo);
+        repo.setOwner(invalidUsername);
+        try {
+            classUnderTest.close(repo, issue);
+            fail("expected exception");
+        } catch (HttpClientErrorException e) {
+            assertTrue(classUnderTest.browseOpen(repo).contains(issue));
+        }
+    }
+
+    @Test
+    public void close_issue_invalid_repo() {
+        Repository repo = setupTestRepo();
+        Issue issue = setUpTestIssue(repo);
+        repo.setName(noGoodRepoName);
+        try {
+            classUnderTest.close(repo, issue);
+            fail("expected exception");
+        } catch (HttpClientErrorException e) {
+            assertTrue(classUnderTest.browseOpen(repo).contains(issue));
+        }
+    }
+
+    @Test
+    public void close_issue_invalid_number() {
+        Repository repo = setupTestRepo();
+        Issue issue = setUpTestIssue(repo);
+        issue.setNumber(99999L);
+        try {
+            classUnderTest.close(repo, issue);
+            fail("expected exception");
+        } catch (HttpClientErrorException e) {
+            assertTrue(classUnderTest.browseOpen(repo).contains(issue));
+        }
+    }
+
+    private Issue setUpTestIssue(Repository argRepo) {
+        Issue newIssue = new Issue();
+        String title = "Issue " + System.currentTimeMillis();
+        newIssue.setTitle(title);
+        String body = "my test issue";
+        newIssue.setBody(body);
+        return classUnderTest.open(argRepo, newIssue);
+    }
 }

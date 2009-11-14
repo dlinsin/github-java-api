@@ -26,7 +26,7 @@ import java.util.Date;
  * @author David Linsin - dlinsin@gmail.com
  */
 public class Issue {
-    private long number;
+    private int number;
     private int votes;
     private String created_at;
     private String body;
@@ -68,7 +68,7 @@ public class Issue {
         return number;
     }
 
-    public void setNumber(long argNumber) {
+    public void setNumber(int argNumber) {
         number = argNumber;
     }
 
@@ -169,7 +169,7 @@ public class Issue {
 
     @Override
     public int hashCode() {
-        int result = (int) (number ^ (number >>> 32));
+        int result = number;
         result = 31 * result + votes;
         result = 31 * result + (created_at != null ? created_at.hashCode() : 0);
         result = 31 * result + (body != null ? body.hashCode() : 0);

@@ -194,7 +194,7 @@ public class IssueBrowserTest {
     public void close_issue() {
         Repository repo = setupTestRepo();
         Issue issue = new Issue();
-        issue.setNumber(1L);
+        issue.setNumber(1);
         expect(mockRestTemplate.postForObject(eq(IssueBrowser.CLOSE_ISSUE_URL), anyObject(), eq(IssueResponse.class), eq(repo.getOwner()),
                 eq(repo.getName()), eq(String.valueOf(issue.getNumber())))).andReturn(new IssueResponse());
         replay(mockRestTemplate);
@@ -215,7 +215,7 @@ public class IssueBrowserTest {
     @Test(expected = NullPointerException.class)
     public void close_issue_null_repo_passed() {
         Issue issue = new Issue();
-        issue.setNumber(1L);
+        issue.setNumber(1);
         classUnderTest.close(null, issue);
     }
 
@@ -223,7 +223,7 @@ public class IssueBrowserTest {
     public void reopen_issue() {
         Repository repo = setupTestRepo();
         Issue issue = new Issue();
-        issue.setNumber(1L);
+        issue.setNumber(1);
         IssueResponse response = new IssueResponse();
         response.setIssue(issue);
         expect(mockRestTemplate.postForObject(eq(IssueBrowser.REOPEN_ISSUE_URL), anyObject(), eq(IssueResponse.class), eq(repo.getOwner()),
@@ -246,7 +246,7 @@ public class IssueBrowserTest {
     @Test(expected = NullPointerException.class)
     public void reopen_issue_null_repo_passed() {
         Issue issue = new Issue();
-        issue.setNumber(1L);
+        issue.setNumber(1);
         classUnderTest.reopen(null, issue);
     }
 

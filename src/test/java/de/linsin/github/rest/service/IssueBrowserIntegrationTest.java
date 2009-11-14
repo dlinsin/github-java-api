@@ -242,7 +242,7 @@ public class IssueBrowserIntegrationTest {
         Repository repo = setupTestRepo();
         Issue issue = setUpTestIssue(repo);
         Issue newIssue = new Issue();
-        newIssue.setNumber(99999L);
+        newIssue.setNumber(99999);
         try {
             classUnderTest.close(repo, newIssue);
             fail("expected exception");
@@ -290,7 +290,7 @@ public class IssueBrowserIntegrationTest {
         Repository repo = setupTestRepo();
         Issue issue = setUpClosedTestIssue(repo);
         Issue newIssue = new Issue();
-        newIssue.setNumber(99999L);
+        newIssue.setNumber(99999);
         try {
             classUnderTest.close(repo, newIssue);
             fail("expected exception");

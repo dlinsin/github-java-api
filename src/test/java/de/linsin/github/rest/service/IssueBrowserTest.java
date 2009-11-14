@@ -20,6 +20,7 @@ import de.linsin.github.rest.resource.IssueResponse;
 import de.linsin.github.rest.resource.IssuesResponse;
 import de.linsin.github.rest.domain.Repository;
 import static org.easymock.classextension.EasyMock.*;
+import static org.easymock.EasyMock.eq;
 import org.junit.After;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -248,6 +249,56 @@ public class IssueBrowserTest {
         Issue issue = new Issue();
         issue.setNumber(1);
         classUnderTest.reopen(null, issue);
+    }
+
+    @Test
+    public void edit_issue() {
+        Issue issue = new Issue();
+        issue.setNumber(1);
+        issue.setTitle("test");
+        issue.setBody("test body");
+        Repository repo = setupTestRepo();
+        IssueResponse response = new IssueResponse();
+        response.setIssue(issue);
+        expect(mockRestTemplate.postForObject(eq(IssueBrowser.EDIT_ISSUE_URL), anyObject(), eq(IssueResponse.class), eq(repo.getOwner()),
+                eq(repo.getName()), eq(String.valueOf(issue.getNumber())))).andReturn(response);
+        replay(mockRestTemplate);
+        assertNotNull(classUnderTest.edit(repo, issue));
+        verify(mockRestTemplate);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void edit_issue_no_number_in_issue() {
+        classUnderTest.edit(setupTestRepo(), new Issue());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void edit_issue_no_title() {
+        Issue issue = new Issue();
+        issue.setNumber(1);
+        classUnderTest.edit(setupTestRepo(), issue);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void edit_issue_no_body() {
+        Issue issue = new Issue();
+        issue.setNumber(1);
+        issue.setTitle("test");
+        classUnderTest.edit(setupTestRepo(), issue);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void edit_issue_null_issue_passed() {
+        classUnderTest.edit(setupTestRepo(), null);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void edit_issue_null_repo_passed() {
+        Issue issue = new Issue();
+        issue.setNumber(1);
+        issue.setTitle("test");
+        issue.setBody("test body");
+        classUnderTest.edit(null, issue);
     }
 
     private Repository setupTestRepo() {

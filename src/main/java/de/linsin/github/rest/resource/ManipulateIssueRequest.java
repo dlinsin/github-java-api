@@ -20,17 +20,17 @@ package de.linsin.github.rest.resource;
  *
  * @author David Linsin - dlinsin@gmail.com
  */
-public class OpenIssueRequest extends IssueRequest {
+public class ManipulateIssueRequest extends IssueRequest {
     private String title;
     private String body;
 
-    public OpenIssueRequest(String argLogin, String argToken, String argTitle, String argBody) {
+    public ManipulateIssueRequest(String argLogin, String argToken, String argTitle, String argBody) {
         super(argLogin, argToken);
         title = argTitle;
         body = argBody;
     }
 
-    public OpenIssueRequest() {
+    public ManipulateIssueRequest() {
     }
 
     public String getTitle() {

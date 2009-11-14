@@ -24,7 +24,7 @@ import de.linsin.github.rest.domain.Repository;
 import de.linsin.github.rest.resource.IssueRequest;
 import de.linsin.github.rest.resource.IssueResponse;
 import de.linsin.github.rest.resource.IssuesResponse;
-import de.linsin.github.rest.resource.OpenIssueRequest;
+import de.linsin.github.rest.resource.ManipulateIssueRequest;
 import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
 
@@ -126,7 +126,7 @@ public class IssueBrowser extends Browser {
         Assert.hasText(argIssue.getTitle());
         Assert.hasText(argIssue.getBody());
 
-        OpenIssueRequest req = new OpenIssueRequest(username, apiToken, argIssue.getTitle(), argIssue.getBody());
+        ManipulateIssueRequest req = new ManipulateIssueRequest(username, apiToken, argIssue.getTitle(), argIssue.getBody());
         IssueResponse resp = template.postForObject(OPEN_ISSUE_URL, req, IssueResponse.class, argRepository.getOwner(), argRepository.getName());
 
         return resp.getIssue();
@@ -170,6 +170,33 @@ public class IssueBrowser extends Browser {
         IssueRequest req = new IssueRequest(username, apiToken);
         template.postForObject(CLOSE_ISSUE_URL, req, IssueResponse.class, argRepository.getOwner(), argRepository.getName(), String.valueOf(argIssue.getNumber()));
     }
+
+
+    /**
+     * Edits the existing {@link Issue} passed, which resides in the provided {@link Repository}
+     * Note: so far only id, title and body are used from passed instance
+     *
+     * @param argRepository {@link Repository} instance used to open issue
+     * @param argIssue      {@link Issue} instance containing id, title and body of the issue
+     * @return the {@link Issue} instance which was edited
+     * @throws IllegalArgumentException in case passed Issue doesn't contain an id, body or title
+     * @throws NullPointerException     in case passed repository or issue is null
+     * @throws HttpClientErrorException in case passed user or repository doesn't exist
+     */
+    public Issue edit(Repository argRepository, Issue argIssue) {
+        RestTemplate template = initTemplate();
+
+        Assert.isTrue(argIssue.getNumber() > 0);
+        Assert.hasText(argIssue.getTitle());
+        Assert.hasText(argIssue.getBody());
+
+        ManipulateIssueRequest req = new ManipulateIssueRequest(username, apiToken, argIssue.getTitle(), argIssue.getBody());
+        IssueResponse resp = template.postForObject(EDIT_ISSUE_URL, req, IssueResponse.class, argRepository.getOwner(), argRepository.getName(), String.valueOf(argIssue.getNumber()));
+
+        return resp.getIssue();
+    }
+
+    // TODO implement comment
 
     protected List<Issue> doBrowse(Repository argRepository, String argUrl) {
         RestTemplate template = initTemplate();

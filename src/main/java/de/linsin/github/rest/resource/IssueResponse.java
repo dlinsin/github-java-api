@@ -13,39 +13,30 @@
  * limitations under the License.
  */
 
-package de.linsin.github.rest.domain;
+package de.linsin.github.rest.resource;
+
+import de.linsin.github.rest.domain.Issue;
 
 /**
- * Represents a request for an issue
+ * Represents a response containing a {@link Issue}
  *
  * @author David Linsin - dlinsin@gmail.com
  */
-public class IssueRequest {
-    private String login;
-    private String token;
+public class IssueResponse {
+    private Issue issue;
 
-    public IssueRequest(String argLogin, String argToken) {
-        login = argLogin;
-        token = argToken;
+    public Issue getIssue() {
+        return issue;
     }
 
-    public IssueRequest() {
+    public void setIssue(Issue argIssue) {
+        issue = argIssue;
     }
 
-    public String getLogin() {
-        return login;
+    @Override
+    public String toString() {
+        return "IssueResponse{" +
+                "issue=" + issue +
+                '}';
     }
-
-    public void setLogin(String argLogin) {
-        login = argLogin;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String argToken) {
-        token = argToken;
-    }
-
 }

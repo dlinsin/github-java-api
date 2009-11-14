@@ -13,28 +13,32 @@
  * limitations under the License.
  */
 
-package de.linsin.github.rest.domain;
+package de.linsin.github.rest.resource;
+
+import java.util.Arrays;
+
+import de.linsin.github.rest.domain.Issue;
 
 /**
- * Represents a response containing a {@link Repository}
+ * Represents a set of {@link Issue} instances
  *
  * @author David Linsin - dlinsin@gmail.com
  */
-public class RepositoryResponse {
-    private Repository repository;
+public class IssuesResponse {
+    private Issue[] issues;
 
-    public Repository getRepository() {
-        return repository;
+    public Issue[] getIssues() {
+        return issues;
     }
 
-    public void setRepository(Repository argRepository) {
-        repository = argRepository;
+    public void setIssues(Issue[] argIssues) {
+        issues = argIssues;
     }
 
     @Override
     public String toString() {
-        return "RepositoryResponse{" +
-                "repository=" + repository +
+        return "IssuesResponse{" +
+                "issues=" + (issues == null ? null : Arrays.asList(issues)) +
                 '}';
     }
 }

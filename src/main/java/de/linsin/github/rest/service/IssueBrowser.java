@@ -20,10 +20,10 @@ import java.util.Collections;
 import java.util.List;
 
 import de.linsin.github.rest.domain.Issue;
-import de.linsin.github.rest.domain.IssueRequest;
-import de.linsin.github.rest.domain.IssueResponse;
-import de.linsin.github.rest.domain.IssuesResponse;
-import de.linsin.github.rest.domain.OpenIssueRequest;
+import de.linsin.github.rest.resource.IssueRequest;
+import de.linsin.github.rest.resource.IssueResponse;
+import de.linsin.github.rest.resource.IssuesResponse;
+import de.linsin.github.rest.resource.OpenIssueRequest;
 import de.linsin.github.rest.domain.Repository;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;

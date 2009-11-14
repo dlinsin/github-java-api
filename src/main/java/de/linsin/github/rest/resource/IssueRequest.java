@@ -13,30 +13,39 @@
  * limitations under the License.
  */
 
-package de.linsin.github.rest.domain;
-
-import java.util.Arrays;
+package de.linsin.github.rest.resource;
 
 /**
- * Represents a set of {@link Issue} instances
+ * Represents a request for an issue
  *
  * @author David Linsin - dlinsin@gmail.com
  */
-public class IssuesResponse {
-    private Issue[] issues;
+public class IssueRequest {
+    private String login;
+    private String token;
 
-    public Issue[] getIssues() {
-        return issues;
+    public IssueRequest(String argLogin, String argToken) {
+        login = argLogin;
+        token = argToken;
     }
 
-    public void setIssues(Issue[] argIssues) {
-        issues = argIssues;
+    public IssueRequest() {
     }
 
-    @Override
-    public String toString() {
-        return "IssuesResponse{" +
-                "issues=" + (issues == null ? null : Arrays.asList(issues)) +
-                '}';
+    public String getLogin() {
+        return login;
     }
+
+    public void setLogin(String argLogin) {
+        login = argLogin;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String argToken) {
+        token = argToken;
+    }
+
 }

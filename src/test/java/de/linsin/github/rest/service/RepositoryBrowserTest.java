@@ -15,9 +15,9 @@
 
 package de.linsin.github.rest.service;
 
-import de.linsin.github.rest.domain.RepositoriesResponse;
+import de.linsin.github.rest.resource.RepositoriesResponse;
 import de.linsin.github.rest.domain.Repository;
-import de.linsin.github.rest.domain.RepositoryResponse;
+import de.linsin.github.rest.resource.RepositoryResponse;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.*;
 import org.junit.After;

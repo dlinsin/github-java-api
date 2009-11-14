@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package de.linsin.github.rest.domain;
+package de.linsin.github.rest.resource;
 
 /**
  * Represents a request to open an issue

@@ -19,9 +19,9 @@ import java.util.List;
 
 import de.linsin.github.rest.domain.Issue;
 import de.linsin.github.rest.domain.Repository;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.springframework.web.client.HttpClientErrorException;
 
 /**
@@ -241,9 +241,58 @@ public class IssueBrowserIntegrationTest {
     public void close_issue_invalid_number() {
         Repository repo = setupTestRepo();
         Issue issue = setUpTestIssue(repo);
-        issue.setNumber(99999L);
+        Issue newIssue = new Issue();
+        newIssue.setNumber(99999L);
         try {
-            classUnderTest.close(repo, issue);
+            classUnderTest.close(repo, newIssue);
+            fail("expected exception");
+        } catch (HttpClientErrorException e) {
+            assertTrue(classUnderTest.browseOpen(repo).contains(issue));
+        }
+    }
+
+    @Test
+    public void reopen_issue() {
+        Repository repo = setupTestRepo();
+        Issue issue = setUpClosedTestIssue(repo);
+        issue = classUnderTest.reopen(repo, issue);
+        assertTrue(classUnderTest.browseOpen(repo).contains(issue));
+    }
+
+    @Test
+    public void reopen_issue_invalid_user() {
+        Repository repo = setupTestRepo();
+        Issue issue = setUpClosedTestIssue(repo);
+        repo.setOwner(invalidUsername);
+        try {
+            classUnderTest.reopen(repo, issue);
+            fail("expected exception");
+        } catch (HttpClientErrorException e) {
+            assertTrue(classUnderTest.browseClosed(repo).contains(issue));
+        }
+    }
+
+    @Test
+    public void reopen_issue_invalid_repo() {
+        Repository repo = setupTestRepo();
+        Issue issue = setUpClosedTestIssue(repo);
+        repo.setName(noGoodRepoName);
+        try {
+            classUnderTest.reopen(repo, issue);
+            fail("expected exception");
+        } catch (HttpClientErrorException e) {
+            assertTrue(classUnderTest.browseClosed(repo).contains(issue));
+        }
+    }
+
+    @Test
+    public void reopen_issue_invalid_number() {
+        Repository repo = setupTestRepo();
+        Issue issue = setUpClosedTestIssue(repo);
+        Issue newIssue = new Issue();
+        newIssue.setNumber(99999L);
+        try {
+            classUnderTest.close(repo, newIssue);
             fail("expected exception");
         } catch (HttpClientErrorException e) {
             assertTrue(classUnderTest.browseOpen(repo).contains(issue));
@@ -257,5 +306,16 @@ public class IssueBrowserIntegrationTest {
         String body = "my test issue";
         newIssue.setBody(body);
         return classUnderTest.open(argRepo, newIssue);
+    }
+
+    private Issue setUpClosedTestIssue(Repository argRepo) {
+        Issue newIssue = new Issue();
+        String title = "Issue " + System.currentTimeMillis();
+        newIssue.setTitle(title);
+        String body = "my test issue";
+        newIssue.setBody(body);
+        newIssue = classUnderTest.open(argRepo, newIssue);
+        classUnderTest.close(argRepo, newIssue);
+        return newIssue;
     }
 }

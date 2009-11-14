@@ -190,6 +190,35 @@ public class IssueBrowserTest {
         classUnderTest.open(null, issue);
     }
 
+    @Test
+    public void close_issue() {
+        Repository repo = setupTestRepo();
+        Issue issue = new Issue();
+        issue.setNumber(1L);
+        expect(mockRestTemplate.postForObject(eq(IssueBrowser.CLOSE_ISSUE_URL), anyObject(), eq(IssueResponse.class), eq(repo.getOwner()),
+                eq(repo.getName()), eq(String.valueOf(issue.getNumber())))).andReturn(new IssueResponse());
+        replay(mockRestTemplate);
+        classUnderTest.close(repo, issue);
+        verify(mockRestTemplate);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void close_issue_no_number_in_issue() {
+        classUnderTest.close(setupTestRepo(), new Issue());
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void close_issue_null_issue_passed() {
+        classUnderTest.close(setupTestRepo(), null);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void close_issue_null_repo_passed() {
+        Issue issue = new Issue();
+        issue.setNumber(1L);
+        classUnderTest.close(null, issue);
+    }
+
     private Repository setupTestRepo() {
         Repository repo = new Repository();
         repo.setName("area51");

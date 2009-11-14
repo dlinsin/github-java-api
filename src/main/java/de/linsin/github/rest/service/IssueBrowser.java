@@ -170,7 +170,7 @@ public class IssueBrowser {
         Assert.isTrue(argIssue.getNumber() > 0);
 
         IssueRequest req = new IssueRequest(username, apiToken);
-        IssueResponse resp = template.postForObject(CLOSE_ISSUE_URL, req, IssueResponse.class, argRepository.getOwner(), argRepository.getName(), String.valueOf(argIssue.getNumber()));
+        template.postForObject(CLOSE_ISSUE_URL, req, IssueResponse.class, argRepository.getOwner(), argRepository.getName(), String.valueOf(argIssue.getNumber()));
     }
 
     protected List<Issue> doBrowse(Repository argRepository, String argUrl) {

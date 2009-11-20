@@ -16,36 +16,23 @@
 package de.linsin.github.rest.resource;
 
 /**
- * Represents a request to open or edit an issue
+ * Represents a request to add a comment to an issue
  *
  * @author David Linsin - dlinsin@gmail.com
  */
-public class IssueRequest extends Request {
-    private String title;
-    private String body;
+public class IssueCommentRequest extends Request {
+    private String comment;
 
-    public IssueRequest(String argLogin, String argToken, String argTitle, String argBody) {
+    public IssueCommentRequest(String argLogin, String argToken, String argComment) {
         super(argLogin, argToken);
-        title = argTitle;
-        body = argBody;
+        comment = argComment;
     }
 
-    public IssueRequest() {
+    public String getComment() {
+        return comment;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String argTitle) {
-        title = argTitle;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String argBody) {
-        body = argBody;
+    public void setComment(String argComment) {
+        comment = argComment;
     }
 }

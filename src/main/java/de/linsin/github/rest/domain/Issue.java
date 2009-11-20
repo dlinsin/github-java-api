@@ -59,9 +59,6 @@ public class Issue {
 
     public enum State {
         open, closed;
-
-        State() {
-        }
     }
 
     public int getNumber() {

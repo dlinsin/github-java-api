@@ -16,36 +16,36 @@
 package de.linsin.github.rest.resource;
 
 /**
- * Represents a request to open an issue
+ * Represents a POST request which contains auth information of github API
  *
  * @author David Linsin - dlinsin@gmail.com
  */
-public class ManipulateIssueRequest extends IssueRequest {
-    private String title;
-    private String body;
+public class Request {
+    private String login;
+    private String token;
 
-    public ManipulateIssueRequest(String argLogin, String argToken, String argTitle, String argBody) {
-        super(argLogin, argToken);
-        title = argTitle;
-        body = argBody;
+    public Request(String argLogin, String argToken) {
+        login = argLogin;
+        token = argToken;
     }
 
-    public ManipulateIssueRequest() {
+    public Request() {
     }
 
-    public String getTitle() {
-        return title;
+    public String getLogin() {
+        return login;
     }
 
-    public void setTitle(String argTitle) {
-        title = argTitle;
+    public void setLogin(String argLogin) {
+        login = argLogin;
     }
 
-    public String getBody() {
-        return body;
+    public String getToken() {
+        return token;
     }
 
-    public void setBody(String argBody) {
-        body = argBody;
+    public void setToken(String argToken) {
+        token = argToken;
     }
+
 }

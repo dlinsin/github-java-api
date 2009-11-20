@@ -44,7 +44,7 @@ public class IssueBrowser extends Browser {
 
     public static final String OPEN_ISSUE_URL = BASE_URL.concat("issues/open/{username}/{repo}");
     public static final String CLOSE_ISSUE_URL = BASE_URL.concat("issues/close/{username}/{repo}/{no}");
-    public static final String REOPEN_ISSUE_URL = BASE_URL.concat("issues/reopen/{username}/{repo}/{no}");
+    public static final String REOPEN_ISSUE_URL = BASE_URL.concat("issues/reopen/{username}/{repo}/{no}");   
     public static final String EDIT_ISSUE_URL = BASE_URL.concat("issues/edit/{username}/{repo}/{no}");
 
     public static final String COMMENT_ISSUE_URL = BASE_URL.concat("issues/comment/{username}/{repo}/{no}");
@@ -181,7 +181,7 @@ public class IssueBrowser extends Browser {
      * @return the {@link Issue} instance which was edited
      * @throws IllegalArgumentException in case passed Issue doesn't contain an id, body or title
      * @throws NullPointerException     in case passed repository or issue is null
-     * @throws HttpClientErrorException in case passed user or repository doesn't exist
+     * @throws HttpClientErrorException in case passed user, repository or issue doesn't exist
      */
     public Issue edit(Repository argRepository, Issue argIssue) {
         RestTemplate template = initTemplate();

@@ -22,6 +22,7 @@ import de.linsin.github.rest.domain.Repository;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.springframework.web.client.HttpClientErrorException;
 
 /**
@@ -285,18 +286,64 @@ public class IssueBrowserIntegrationTest {
         }
     }
 
-    @Test
+    @Test(expected = HttpClientErrorException.class)
     public void reopen_issue_invalid_number() {
         Repository repo = setupTestRepo();
-        Issue issue = setUpClosedTestIssue(repo);
-        Issue newIssue = new Issue();
-        newIssue.setNumber(99999);
+        Issue issue = new Issue();
+        issue.setNumber(99999);
+        classUnderTest.close(repo, issue);
+    }
+
+    @Test
+    public void edit_issue() {
+        Repository repo = setupTestRepo();
+        Issue issue = setUpTestIssue(repo);
+        String body = "this was edited";
+        issue.setBody(body);
+        Issue editedIssue = classUnderTest.edit(repo, issue);
+        assertEquals(issue, editedIssue);
+        assertEquals(body, editedIssue.getBody());
+        assertEquals(issue.getBody(), editedIssue.getBody());
+    }
+
+    @Test
+    public void edit_issue_invalid_repo() {
+        Repository repo = setupTestRepo();
+        Issue issue = setUpTestIssue(repo);
+        issue.setBody("this is edit");
+        repo.setName(noGoodRepoName);
         try {
-            classUnderTest.close(repo, newIssue);
+            classUnderTest.edit(repo, issue);
             fail("expected exception");
         } catch (HttpClientErrorException e) {
-            assertTrue(classUnderTest.browseClosed(repo).contains(issue));
+            assertFalse(classUnderTest.browse(setupTestRepo(), issue.getNumber()).getBody().equals(issue.getBody()));
         }
+    }
+
+    // TODO check this
+    @Test
+    @Ignore
+    public void edit_issue_invalid_user() {
+        Repository repo = setupTestRepo();
+        Issue issue = setUpTestIssue(repo);
+        issue.setBody("this is edit");
+        repo.setOwner(invalidUsername);
+        try {
+            classUnderTest.edit(repo, issue);
+            fail("expected exception");
+        } catch (HttpClientErrorException e) {
+            assertFalse(classUnderTest.browse(setupTestRepo(), issue.getNumber()).getBody().equals(issue.getBody()));
+        }
+    }
+
+    @Test(expected = HttpClientErrorException.class)
+    public void edit_issue_invalid_number() {
+        Repository repo = setupTestRepo();
+        Issue issue = new Issue();
+        issue.setNumber(99999);
+        issue.setTitle("test");
+        issue.setBody("test body");
+        classUnderTest.edit(repo, issue);
     }
 
     private Issue setUpTestIssue(Repository argRepo) {

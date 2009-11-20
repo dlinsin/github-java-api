@@ -64,7 +64,7 @@ public class Issue {
         }
     }
 
-    public long getNumber() {
+    public int getNumber() {
         return number;
     }
 

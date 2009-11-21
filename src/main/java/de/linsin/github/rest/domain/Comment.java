@@ -26,12 +26,12 @@ public class Comment {
     private Status status;
 
     public Comment() {
-        status = Status.saved;
+        status = Status.unsaved;
     }
 
     // TODO find out other statuses
     public enum Status {
-        saved;
+        saved, unsaved
     }
 
     public String getComment() {

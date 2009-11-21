@@ -18,7 +18,9 @@ package de.linsin.github.rest.service;
 import de.linsin.github.rest.domain.Issue;
 import de.linsin.github.rest.resource.IssueResponse;
 import de.linsin.github.rest.resource.IssuesResponse;
+import de.linsin.github.rest.resource.CommentIssueResponse;
 import de.linsin.github.rest.domain.Repository;
+import de.linsin.github.rest.domain.Comment;
 import static org.easymock.classextension.EasyMock.*;
 import static org.easymock.EasyMock.eq;
 import org.junit.After;
@@ -253,10 +255,7 @@ public class IssueBrowserTest {
 
     @Test
     public void edit_issue() {
-        Issue issue = new Issue();
-        issue.setNumber(1);
-        issue.setTitle("test");
-        issue.setBody("test body");
+        Issue issue = setupTestIssue();
         Repository repo = setupTestRepo();
         IssueResponse response = new IssueResponse();
         response.setIssue(issue);
@@ -265,6 +264,14 @@ public class IssueBrowserTest {
         replay(mockRestTemplate);
         assertNotNull(classUnderTest.edit(repo, issue));
         verify(mockRestTemplate);
+    }
+
+    private Issue setupTestIssue() {
+        Issue issue = new Issue();
+        issue.setNumber(1);
+        issue.setTitle("test");
+        issue.setBody("test body");
+        return issue;
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -294,11 +301,64 @@ public class IssueBrowserTest {
 
     @Test(expected = NullPointerException.class)
     public void edit_issue_null_repo_passed() {
-        Issue issue = new Issue();
-        issue.setNumber(1);
-        issue.setTitle("test");
-        issue.setBody("test body");
+        Issue issue = setupTestIssue();
         classUnderTest.edit(null, issue);
+    }
+
+    @Test
+    public void comment_issue() {
+        Repository repo = setupTestRepo();
+        Issue issue = setupTestIssue();
+        Comment comment = new Comment();
+        comment.setComment("hello moto");
+
+        CommentIssueResponse response = new CommentIssueResponse();
+        response.setComment(comment);
+        expect(mockRestTemplate.postForObject(eq(IssueBrowser.COMMENT_ISSUE_URL), anyObject(), eq(CommentIssueResponse.class), eq(repo.getOwner()),
+                eq(repo.getName()), eq(String.valueOf(issue.getNumber())))).andReturn(response);
+        replay(mockRestTemplate);
+        assertNotNull(classUnderTest.comment(repo, issue, comment));
+        verify(mockRestTemplate);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void comment_issue_no_number_in_issue() {
+        Repository repo = setupTestRepo();
+        Issue issue = new Issue();
+        Comment comment = new Comment();
+        comment.setComment("hello moto");
+        classUnderTest.comment(repo, issue, comment);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void comment_issue_no_comment_text() {
+        Repository repo = setupTestRepo();
+        Issue issue = setupTestIssue();
+        Comment comment = new Comment();
+        classUnderTest.comment(repo, issue, comment);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void comment_issue_null_repo_passed() {
+        Issue issue = setupTestIssue();
+        Comment comment = new Comment();
+        comment.setComment("hello moto");
+        classUnderTest.comment(null, issue, comment);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void comment_issue_null_issue_passed() {
+        Repository repo = setupTestRepo();
+        Comment comment = new Comment();
+        comment.setComment("hello moto");
+        classUnderTest.comment(repo, null, comment);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void comment_issue_null_comment_passed() {
+        Repository repo = setupTestRepo();
+        Issue issue = setupTestIssue();
+        classUnderTest.comment(repo, issue, null);
     }
 
     private Repository setupTestRepo() {

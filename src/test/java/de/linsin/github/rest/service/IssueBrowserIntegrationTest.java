@@ -17,12 +17,13 @@ package de.linsin.github.rest.service;
 
 import java.util.List;
 
+import de.linsin.github.rest.domain.Comment;
 import de.linsin.github.rest.domain.Issue;
 import de.linsin.github.rest.domain.Repository;
 import static org.junit.Assert.*;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.Ignore;
+import org.junit.Test;
 import org.springframework.web.client.HttpClientErrorException;
 
 /**
@@ -320,7 +321,7 @@ public class IssueBrowserIntegrationTest {
         }
     }
 
-    // TODO check this
+    // TODO this test doesn't work due to an issue with github
     @Test
     @Ignore
     public void edit_issue_invalid_user() {
@@ -344,6 +345,46 @@ public class IssueBrowserIntegrationTest {
         issue.setTitle("test");
         issue.setBody("test body");
         classUnderTest.edit(repo, issue);
+    }
+
+    @Test
+    public void comment_issue() {
+        Repository repo = setupTestRepo();
+        Issue issue = setUpTestIssue(repo);
+        Comment comment = new Comment();
+        comment.setComment("dummy comment");
+        Comment savedComment = classUnderTest.comment(repo, issue, comment);
+        assertEquals(Comment.Status.saved.name(), savedComment.getStatus());
+    }
+
+    @Test(expected = HttpClientErrorException.class)
+    public void comment_issue_invalid_repo() {
+        Repository repo = setupTestRepo();
+        Issue issue = setUpTestIssue(repo);
+        repo.setName(noGoodRepoName);
+        Comment comment = new Comment();
+        comment.setComment("dummy comment");
+        classUnderTest.comment(repo, issue, comment);
+    }
+
+    @Test(expected = HttpClientErrorException.class)
+    public void comment_issue_invalid_user() {
+        Repository repo = setupTestRepo();
+        Issue issue = setUpTestIssue(repo);
+        repo.setOwner(invalidUsername);
+        Comment comment = new Comment();
+        comment.setComment("dummy comment");
+        classUnderTest.comment(repo, issue, comment);
+    }
+
+    @Test(expected = HttpClientErrorException.class)
+    public void comment_issue_invalid_number() {
+        Repository repo = setupTestRepo();
+        Issue issue = setUpTestIssue(repo);
+        issue.setNumber(99999);
+        Comment comment = new Comment();
+        comment.setComment("dummy comment");
+        classUnderTest.comment(repo, issue, comment);
     }
 
     private Issue setUpTestIssue(Repository argRepo) {

@@ -22,12 +22,12 @@ import java.util.List;
 import de.linsin.github.rest.domain.Comment;
 import de.linsin.github.rest.domain.Issue;
 import de.linsin.github.rest.domain.Repository;
-import de.linsin.github.rest.resource.IssueCommentRequest;
+import de.linsin.github.rest.resource.CommentIssueRequest;
 import de.linsin.github.rest.resource.IssueRequest;
 import de.linsin.github.rest.resource.IssueResponse;
 import de.linsin.github.rest.resource.IssuesResponse;
 import de.linsin.github.rest.resource.Request;
-import de.linsin.github.rest.resource.IssueCommentResponse;
+import de.linsin.github.rest.resource.CommentIssueResponse;
 import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
 
@@ -217,13 +217,11 @@ public class IssueBrowser extends Browser {
         Assert.isTrue(argIssue.getNumber() > 0);
         Assert.hasText(argComment.getComment());
 
-        IssueCommentRequest req = new IssueCommentRequest(username, apiToken, argComment.getComment());
-        IssueCommentResponse resp = template.postForObject(COMMENT_ISSUE_URL, req, IssueCommentResponse.class, argRepository.getOwner(), argRepository.getName(), String.valueOf(argIssue.getNumber()));
+        CommentIssueRequest req = new CommentIssueRequest(username, apiToken, argComment.getComment());
+        CommentIssueResponse resp = template.postForObject(COMMENT_ISSUE_URL, req, CommentIssueResponse.class, argRepository.getOwner(), argRepository.getName(), String.valueOf(argIssue.getNumber()));
 
         return resp.getComment();
     }
-
-    // TODO implement comment
 
     protected List<Issue> doBrowse(Repository argRepository, String argUrl) {
         RestTemplate template = initTemplate();

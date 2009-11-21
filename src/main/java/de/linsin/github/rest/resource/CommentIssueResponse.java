@@ -15,24 +15,28 @@
 
 package de.linsin.github.rest.resource;
 
+import de.linsin.github.rest.domain.Comment;
+
 /**
- * Represents a request to add a comment to an issue
+ * Represents a response containing a {@link Comment}
  *
  * @author David Linsin - dlinsin@gmail.com
  */
-public class IssueCommentRequest extends Request {
-    private String comment;
+public class CommentIssueResponse {
+    private Comment comment;
 
-    public IssueCommentRequest(String argLogin, String argToken, String argComment) {
-        super(argLogin, argToken);
-        comment = argComment;
-    }
-
-    public String getComment() {
+    public Comment getComment() {
         return comment;
     }
 
-    public void setComment(String argComment) {
+    public void setComment(Comment argComment) {
         comment = argComment;
+    }
+
+    @Override
+    public String toString() {
+        return "CommentIssueResponse{" +
+                "comment=" + comment +
+                '}';
     }
 }

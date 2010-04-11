@@ -9,18 +9,8 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>org.springframework.web</artifactId>
-            <version>3.0.0.M4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.ws</groupId>
-            <artifactId>org.springframework.xml</artifactId>
-            <version>1.5.5.A</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.log4j</groupId>
-            <artifactId>com.springsource.org.apache.log4j</artifactId>
-            <version>1.2.15</version>
+            <artifactId>spring-web</artifactId>
+            <version>3.0.1.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
@@ -58,22 +48,22 @@
         </plugins>
     </build>
 
-    <repositories>
-        <repository>
-            <id>s2-snapshot</id>
-            <url>http://repository.springsource.com/maven/bundles/snapshot</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>s2-release</id>
-            <url>http://repository.springsource.com/maven/bundles/release</url>
-        </repository>
-        <repository>
-            <id>s2-external</id>
-            <url>http://repository.springsource.com/maven/bundles/external</url>
-        </repository>
-    </repositories>
+<!--    <repositories>-->
+<!--        <repository>-->
+<!--            <id>s2-snapshot</id>-->
+<!--            <url>http://repository.springsource.com/maven/bundles/snapshot</url>-->
+<!--            <snapshots>-->
+<!--                <enabled>true</enabled>-->
+<!--            </snapshots>-->
+<!--        </repository>-->
+<!--        <repository>-->
+<!--            <id>s2-release</id>-->
+<!--            <url>http://repository.springsource.com/maven/bundles/release</url>-->
+<!--        </repository>-->
+<!--        <repository>-->
+<!--            <id>s2-external</id>-->
+<!--            <url>http://repository.springsource.com/maven/bundles/external</url>-->
+<!--        </repository>-->
+<!--    </repositories>-->
 
 </project>

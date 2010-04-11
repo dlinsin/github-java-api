@@ -15,9 +15,11 @@
 
 package de.linsin.github.rest.service;
 
-import org.springframework.web.client.RestTemplate;
+import java.util.Arrays;
+
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * Base class containing methods used by all flavors of browsers
@@ -32,7 +34,8 @@ public abstract class Browser {
      */
     protected RestTemplate initTemplate() {
         RestTemplate template = new RestTemplate();
-        template.setMessageConverters(new HttpMessageConverter[] {new MappingJacksonHttpMessageConverter()});
+        HttpMessageConverter<?>[] httpMessageConverters = new HttpMessageConverter<?>[] {new MappingJacksonHttpMessageConverter()};
+        template.setMessageConverters(Arrays.asList(httpMessageConverters));
         return template;
     }
 }
